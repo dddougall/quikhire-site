@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QuikHire — Local help today, at the price you set</title>
+<meta name="description" content="QuikHire connects South Florida neighbors with background-checked local providers for same-day help. You describe the job and set the price.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2313233A'/%3E%3Cpath d='M10 24h16M6 32h18M10 40h14' stroke='%23F4A900' stroke-width='4' stroke-linecap='round'/%3E%3Ctext x='42' y='45' font-family='Arial' font-weight='800' font-size='32' fill='%23fff' text-anchor='middle'%3EQ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sun: #F4A900;        /* QuikHire yellow, same as the app */
+    --sun-soft: #FFF3D1;
+    --ink: #13233A;        /* deep harbor blue */
+    --ink-2: #4A5A70;
+    --sky: #EAF3FA;
+    --white: #FFFFFF;
+    --line: #D7E1EA;
+    --display: "Bricolage Grotesque", system-ui, sans-serif;
+    --body: "Atkinson Hyperlegible", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--white);
+    color: var(--ink);
+    font: 400 1.125rem/1.6 var(--body);
+  }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--sun); outline-offset: 3px; border-radius: 6px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  h1, h2, h3 { font-family: var(--display); line-height: 1.05; margin: 0; letter-spacing: -0.02em; }
+
+  /* ── Top bar ── */
+  .top { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; }
+  .wordmark { display: flex; align-items: center; gap: 10px; font: 800 1.6rem/1 var(--display); text-decoration: none; letter-spacing: -0.03em; }
+  .speed { display: grid; gap: 4px; }
+  .speed i { display: block; height: 3px; border-radius: 3px; background: var(--sun); }
+  .speed i:nth-child(1) { width: 18px; margin-left: 6px; }
+  .speed i:nth-child(2) { width: 24px; }
+  .speed i:nth-child(3) { width: 14px; margin-left: 10px; }
+  .lang { display: inline-flex; border: 2px solid var(--ink); border-radius: 999px; overflow: hidden; }
+  .lang button {
+    font: 700 0.95rem/1 var(--body); padding: 9px 14px; border: 0; background: transparent; color: var(--ink); cursor: pointer;
+  }
+  .lang button[aria-pressed="true"] { background: var(--ink); color: var(--white); }
+
+  /* ── Hero ── */
+  .hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; padding: 48px 0 88px; }
+  .hero h1 { font-size: clamp(2.75rem, 7vw, 5.25rem); font-weight: 800; }
+  .hero h1 span { display: block; }
+  .hero p.lede { font-size: 1.3rem; color: var(--ink-2); max-width: 34ch; margin: 24px 0 32px; }
+  .soon {
+    display: inline-flex; align-items: center; gap: 12px; padding: 14px 22px; border-radius: 14px;
+    background: var(--ink); color: var(--white); font-weight: 700; font-size: 1.05rem;
+  }
+  .soon b { color: var(--sun); }
+  .where { margin-top: 16px; color: var(--ink-2); font-size: 1rem; }
+
+  /* The job post: the one thing that moves */
+  .post {
+    position: relative; background: var(--white); border: 2px solid var(--ink); border-radius: 22px;
+    padding: 26px 26px 22px; box-shadow: 10px 10px 0 var(--sun);
+  }
+  .post::before {
+    content: ""; position: absolute; left: -64px; top: 38px; width: 48px; height: 60px;
+    background:
+      linear-gradient(var(--sun), var(--sun)) 12px 0 / 36px 5px no-repeat,
+      linear-gradient(var(--sun), var(--sun)) 0 26px / 48px 5px no-repeat,
+      linear-gradient(var(--sun), var(--sun)) 20px 52px / 28px 5px no-repeat;
+  }
+  .post .cat { display: inline-block; background: var(--sky); border-radius: 999px; padding: 6px 14px; font-weight: 700; font-size: 0.95rem; }
+  .post .need { font: 600 1.45rem/1.3 var(--display); margin: 16px 0 22px; min-height: 3.9em; }
+  .post .row { display: flex; justify-content: space-between; align-items: baseline; border-top: 2px dashed var(--line); padding-top: 16px; }
+  .post .row small { color: var(--ink-2); font-size: 1rem; }
+  .post .price { font: 800 2.6rem/1 var(--display); }
+  .post .status { margin-top: 16px; display: flex; align-items: center; gap: 10px; font-weight: 700; color: #2E7D32; opacity: 0; transition: opacity .4s; }
+  .post .status.on { opacity: 1; }
+  .post .status::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: #2E7D32; }
+  .caret { display: inline-block; width: 3px; height: 1em; background: var(--sun); vertical-align: -0.12em; margin-left: 2px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ── Sections ── */
+  section.band { padding: 88px 0; }
+  section.band.sky { background: var(--sky); }
+  .band h2 { font-size: clamp(2rem, 4.5vw, 3.1rem); max-width: 20ch; }
+  .band .sub { color: var(--ink-2); max-width: 56ch; margin: 16px 0 0; }
+
+  .steps { list-style: none; padding: 0; margin: 48px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; counter-reset: s; }
+  .steps li { counter-increment: s; border-top: 4px solid var(--ink); padding-top: 20px; }
+  .steps li::before { content: counter(s); display: block; font: 800 3rem/1 var(--display); color: var(--sun); margin-bottom: 12px; }
+  .steps h3 { font-size: 1.45rem; margin-bottom: 8px; }
+  .steps p { margin: 0; color: var(--ink-2); }
+
+  .cats { display: flex; flex-wrap: wrap; gap: 12px; margin: 40px 0 0; padding: 0; list-style: none; }
+  .cats li { background: var(--white); border: 2px solid var(--ink); border-radius: 999px; padding: 10px 20px; font-weight: 700; }
+  .cats li.other { border-style: dashed; }
+
+  .pro { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; align-items: start; }
+  .facts { margin: 0; padding: 0; list-style: none; }
+  .facts li { display: grid; grid-template-columns: 11ch 1fr; gap: 20px; padding: 22px 0; border-bottom: 2px solid var(--line); }
+  .facts li:first-child { padding-top: 0; }
+  .facts strong { font: 800 2rem/1 var(--display); color: var(--ink); white-space: nowrap; }
+  .facts span { color: var(--ink-2); }
+
+  .area { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 40px; border: 2px solid var(--ink); border-radius: 18px; overflow: hidden; }
+  .area div { padding: 26px 20px; font: 700 1.3rem/1.2 var(--display); border-left: 2px solid var(--ink); background: var(--white); }
+  .area div:first-child { border-left: 0; }
+
+  footer { background: var(--ink); color: #C9D4E0; padding: 56px 0 40px; font-size: 1rem; }
+  footer .cols { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px; }
+  footer .wordmark { color: var(--white); }
+  footer h3 { color: var(--white); font: 700 1.1rem/1.2 var(--body); margin-bottom: 10px; }
+  footer p { margin: 4px 0; }
+  footer a { color: var(--white); }
+  footer .legal { margin-top: 40px; padding-top: 20px; border-top: 1px solid #2B3E58; font-size: 0.9rem; }
+
+  @media (max-width: 860px) {
+    .hero, .pro { grid-template-columns: 1fr; gap: 40px; }
+    .hero { padding: 24px 0 64px; }
+    .post { margin-right: 10px; }
+    .post::before { display: none; }
+    .steps { grid-template-columns: 1fr; gap: 28px; }
+    .area { grid-template-columns: 1fr 1fr; }
+    .area div:nth-child(3) { border-left: 0; }
+    .area div:nth-child(n+3) { border-top: 2px solid var(--ink); }
+    section.band { padding: 64px 0; }
+  }
+  @media (max-width: 420px) {
+    .wrap { padding: 0 16px; }
+    .facts li { grid-template-columns: 1fr; gap: 6px; }
+    .top .wordmark { font-size: 1.35rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .caret { animation: none; }
+    .post .status { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="wordmark" href="#" aria-label="QuikHire home">
+    <span class="speed" aria-hidden="true"><i></i><i></i><i></i></span>QuikHire
+  </a>
+  <div class="lang" role="group" aria-label="Language">
+    <button type="button" data-lang="en" aria-pressed="true">EN</button>
+    <button type="button" data-lang="es" aria-pressed="false">ES</button>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div>
+      <h1><span data-t="h1a">Help today.</span><span data-t="h1b">You set the price.</span></h1>
+      <p class="lede" data-t="lede">Describe what you need, name what you'll pay, and a background-checked neighbor takes the job. Same day, or up to 24 hours ahead.</p>
+      <div class="soon"><b data-t="soonA">Coming soon</b> <span data-t="soonB">to iPhone and Android</span></div>
+      <p class="where" data-t="where">Starting in Miami-Dade, Broward, Palm Beach and St. Lucie.</p>
+    </div>
+
+    <div class="post" aria-label="Example job post">
+      <span class="cat" data-t="demoCat">Outdoor Services</span>
+      <p class="need"><span id="typed"></span><span class="caret" aria-hidden="true"></span></p>
+      <div class="row">
+        <small data-t="demoYouPay">You pay</small>
+        <span class="price">$45</span>
+      </div>
+      <div class="status" id="status" data-t="demoAccepted">Accepted by a provider nearby</div>
+    </div>
+  </div>
+
+  <section class="band sky" id="how">
+    <div class="wrap">
+      <h2 data-t="howH">Posting a job takes about a minute</h2>
+      <ol class="steps">
+        <li><h3 data-t="s1h">Say what you need</h3><p data-t="s1p">Write it the way you'd text a friend. The app picks the right category for you.</p></li>
+        <li><h3 data-t="s2h">Set your price</h3><p data-t="s2p">You decide what the job is worth. Your card is only held, and charged once the job is done.</p></li>
+        <li><h3 data-t="s3h">Get it done</h3><p data-t="s3p">A local provider accepts, lets you know when they're on the way, and gets to work.</p></li>
+      </ol>
+      <ul class="cats" aria-label="Categories">
+        <li data-t="c1">Delivery &amp; Pickups</li>
+        <li data-t="c2">Errands</li>
+        <li data-t="c3">Cleaning</li>
+        <li data-t="c4">Home Services</li>
+        <li data-t="c5">Outdoor &amp; Lawn</li>
+        <li data-t="c6">Repairs &amp; Fixes</li>
+        <li data-t="c7">Pet Care</li>
+        <li class="other" data-t="c8">Something else? Post it under Other</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band" id="providers">
+    <div class="wrap pro">
+      <div>
+        <h2 data-t="proH">Earn on your own schedule</h2>
+        <p class="sub" data-t="proP">Pick up jobs near you when it suits you. You see the pay before you accept, and you're paid through the app.</p>
+      </div>
+      <ul class="facts">
+        <li><strong data-t="f1n">3 jobs</strong><span data-t="f1p">Your first three completed jobs are commission-free.</span></li>
+        <li><strong>100%</strong><span data-t="f2p">Tips always go to you, in full.</span></li>
+        <li><strong data-t="f3n">1 check</strong><span data-t="f3p">Approval is a single background check. No interviews, no waiting on licenses.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band sky" id="area">
+    <div class="wrap">
+      <h2 data-t="areaH">Built for South Florida</h2>
+      <p class="sub" data-t="areaP">QuikHire is fully bilingual in English and Spanish, and starts in four counties.</p>
+      <div class="area">
+        <div>Miami-Dade</div><div>Broward</div><div>Palm Beach</div><div>St. Lucie</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="wordmark" href="#"><span class="speed" aria-hidden="true"><i></i><i></i><i></i></span>QuikHire</a>
+        <p style="margin-top:12px" data-t="footTag">Local help, same day.</p>
+      </div>
+      <div>
+        <h3 data-t="contactH">Contact</h3>
+        <p><a href="mailto:info@quikhiregigapp.com">info@quikhiregigapp.com</a></p>
+      </div>
+    </div>
+    <p class="legal">© <span id="yr">2026</span> QuikHire LLC. <span data-t="legal">A Florida limited liability company.</span></p>
+  </div>
+</footer>
+
+<script>
+  const T = {
+    es: {
+      h1a: "Ayuda hoy.", h1b: "Tú pones el precio.",
+      lede: "Describe lo que necesitas, di cuánto vas a pagar y un vecino con verificación de antecedentes toma el trabajo. El mismo día, o hasta con 24 horas de anticipación.",
+      soonA: "Muy pronto", soonB: "en iPhone y Android",
+      where: "Empezando en Miami-Dade, Broward, Palm Beach y St. Lucie.",
+      demoCat: "Servicios al aire libre", demoYouPay: "Tú pagas", demoAccepted: "Aceptado por un proveedor cercano",
+      howH: "Publicar un trabajo toma como un minuto",
+      s1h: "Di lo que necesitas", s1p: "Escríbelo como le escribirías a un amigo. La app elige la categoría por ti.",
+      s2h: "Pon tu precio", s2p: "Tú decides cuánto vale el trabajo. Tu tarjeta solo se retiene y se cobra cuando el trabajo está hecho.",
+      s3h: "Listo", s3p: "Un proveedor local acepta, te avisa cuando va en camino y se pone a trabajar.",
+      c1: "Entregas y recogidas", c2: "Mandados", c3: "Limpieza", c4: "Servicios del hogar", c5: "Jardín y exteriores",
+      c6: "Reparaciones", c7: "Cuidado de mascotas", c8: "¿Otra cosa? Publícalo en Otro",
+      proH: "Gana dinero en tu propio horario",
+      proP: "Toma trabajos cerca de ti cuando te convenga. Ves el pago antes de aceptar y cobras a través de la app.",
+      f1n: "3 trabajos", f1p: "Tus primeros tres trabajos completados no pagan comisión.",
+      f2p: "Las propinas siempre son tuyas, completas.",
+      f3n: "1 verificación", f3p: "La aprobación es una sola verificación de antecedentes. Sin entrevistas, sin esperar licencias.",
+      areaH: "Hecho para el sur de Florida",
+      areaP: "QuikHire es completamente bilingüe en inglés y español, y empieza en cuatro condados.",
+      footTag: "Ayuda local, el mismo día.", contactH: "Contacto",
+      legal: "Una compañía de responsabilidad limitada de Florida."
+    },
+    demo: {
+      en: "Mow my front and back lawn this afternoon. Mower's in the garage.",
+      es: "Cortar el césped de enfrente y atrás esta tarde. La podadora está en el garaje."
+    }
+  };
+
+  // Remember the English text so we can switch back
+  const nodes = document.querySelectorAll("[data-t]");
+  nodes.forEach(n => n.dataset.en = n.textContent);
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const typed = document.getElementById("typed");
+  const status = document.getElementById("status");
+  let timer;
+
+  function playDemo(lang) {
+    clearTimeout(timer);
+    const text = T.demo[lang];
+    status.classList.remove("on");
+    if (reduce) { typed.textContent = text; status.classList.add("on"); return; }
+    let i = 0;
+    typed.textContent = "";
+    (function step() {
+      typed.textContent = text.slice(0, ++i);
+      if (i < text.length) timer = setTimeout(step, 38);
+      else timer = setTimeout(() => status.classList.add("on"), 700);
+    })();
+  }
+
+  function setLang(lang) {
+    document.documentElement.lang = lang;
+    nodes.forEach(n => { n.textContent = lang === "es" ? (T.es[n.dataset.t] || n.dataset.en) : n.dataset.en; });
+    document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+    try { localStorage.setItem("qh-lang", lang); } catch (e) {}
+    playDemo(lang);
+  }
+
+  document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  let start = "en";
+  try { start = localStorage.getItem("qh-lang") || ((navigator.language || "").startsWith("es") ? "es" : "en"); } catch (e) {}
+  setLang(start);
+</script>
+</body>
+</html>
