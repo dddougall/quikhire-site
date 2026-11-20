@@ -150,6 +150,7 @@
   <div class="lang" role="group" aria-label="Language">
     <button type="button" data-lang="en" aria-pressed="true">EN</button>
     <button type="button" data-lang="es" aria-pressed="false">ES</button>
+    <button type="button" data-lang="ht" aria-pressed="false">HT</button>
   </div>
 </header>
 
@@ -163,11 +164,11 @@
     </div>
 
     <div class="post" aria-label="Example job post">
-      <span class="cat" data-t="demoCat">Outdoor &amp; Lawn</span>
+      <span class="cat">Outdoor &amp; Lawn</span>
       <p class="need"><span id="typed"></span><span class="caret" aria-hidden="true"></span></p>
       <div class="row">
         <small data-t="demoYouPay">You pay</small>
-        <span class="price">$45</span>
+        <span class="price" id="price">$45</span>
       </div>
       <div class="status" id="status" data-t="demoAccepted">Accepted by a provider nearby</div>
     </div>
@@ -211,7 +212,7 @@
   <section class="band sky" id="area">
     <div class="wrap">
       <h2 data-t="areaH">Built for South Florida</h2>
-      <p class="sub" data-t="areaP">QuikHire is fully bilingual in English and Spanish and is launching in four counties.</p>
+      <p class="sub" data-t="areaP">QuikHire works in English, Spanish and Haitian Creole, and is launching in four counties.</p>
       <div class="area">
         <div>Miami-Dade</div><div>Broward</div><div>Palm Beach</div><div>St. Lucie</div>
       </div>
@@ -242,7 +243,7 @@
       lede: "Describe lo que necesitas, pon tu presupuesto y un vecino con antecedentes verificados toma el trabajo. Recibe ayuda el mismo día o reserva hasta con 24 horas de anticipación.",
       soonA: "Muy pronto", soonB: "en iPhone y Android",
       where: "Empezando en Miami-Dade, Broward, Palm Beach y St. Lucie.",
-      demoCat: "Jardín y exteriores", demoYouPay: "Tú pagas", demoAccepted: "Aceptado por un proveedor cercano",
+      demoYouPay: "Tú pagas", demoAccepted: "Aceptado por un proveedor cercano",
       howH: "Publicar un trabajo toma alrededor de un minuto",
       s1h: "Di lo que necesitas", s1p: "Escríbelo como le escribirías a un amigo. La app elige la categoría por ti.",
       s2h: "Pon tu precio", s2p: "Tú decides cuánto vale el trabajo. El pago se retiene en tu tarjeta y solo se cobra cuando el trabajo esté terminado.",
@@ -255,14 +256,53 @@
       f2p: "De las propinas siempre son para ti",
       f3n: "1 verificación", f3p: "La aprobación solo requiere una verificación de antecedentes. Sin entrevistas. Sin esperar licencias.",
       areaH: "Hecho para el sur de Florida",
-      areaP: "QuikHire es completamente bilingüe en inglés y español, y se lanza en cuatro condados.",
+      areaP: "QuikHire funciona en inglés, español y criollo haitiano, y se lanza en cuatro condados.",
       footTag: "Ayuda local, el mismo día.", contactH: "Contacto",
       legal: "Una compañía de responsabilidad limitada de Florida."
     },
-    demo: {
-      en: "Mow my front and back lawn this afternoon. Mower's in the garage.",
-      es: "Cortar el césped de enfrente y atrás esta tarde. La podadora está en el garaje."
-    }
+    ht: {
+      h1a: "Èd jodi a.", h1b: "Se ou ki fikse pri a.",
+      lede: "Di sa w bezwen, mete bidjè w, epi yon vwazen ki pase verifikasyon dosye pran travay la. Jwenn èd menm jou a, oswa rezève jiska 24 èdtan davans.",
+      soonA: "Talè konsa", soonB: "sou iPhone ak Android",
+      where: "N ap kòmanse nan Miami-Dade, Broward, Palm Beach ak St. Lucie.",
+      demoYouPay: "Ou peye", demoAccepted: "Yon travayè toupre aksepte l",
+      howH: "Poste yon travay pran anviwon yon minit",
+      s1h: "Di sa w bezwen", s1p: "Ekri l menm jan ou ta ekri yon zanmi. Aplikasyon an chwazi bon kategori a pou ou.",
+      s2h: "Mete pri ou", s2p: "Se ou ki deside konbyen travay la vo. Lajan an rete bloke sou kat ou, li pa retire jiskaske travay la fini.",
+      s3h: "Travay la fèt", s3p: "Yon travayè nan zòn nan aksepte, li fè w konnen lè l sou wout, epi li pran travay la.",
+      c1: "Livrezon ak Ranmasaj", c2: "Komisyon", c3: "Netwayaj", c4: "Lesiv ak Òganizasyon", c5: "Lakou ak Gazon",
+      c6: "Reparasyon", c7: "Swen Bèt", c8: "Yon lòt bagay? Poste l nan Lòt",
+      proH: "Fè lajan sou pwòp orè ou",
+      proP: "Pran travay toupre w lè sa bon pou ou. Ou wè konbyen yo peye anvan ou aksepte, epi ou resevwa lajan w nan aplikasyon an.",
+      f1n: "3 travay", f1p: "Twa premye travay ou fini yo pa gen komisyon.",
+      f2p: "Nan tout poubwa toujou pou ou",
+      f3n: "1 verifikasyon", f3p: "Pou yo apwouve w, ou bezwen yon sèl verifikasyon dosye. Pa gen entèvyou. Pa gen tann lisans.",
+      areaH: "Fèt pou Sid Florid",
+      areaP: "QuikHire mache an angle, an panyòl ak an kreyòl ayisyen, epi l ap lanse nan kat konte.",
+      footTag: "Èd lokal, menm jou a.", contactH: "Kontak",
+      legal: "Yon konpayi responsablite limite nan Florid."
+    },
+    // Example posts in the hero card — they take turns
+    demos: [
+      {
+        price: "$45",
+        cat: { en: "Outdoor & Lawn", es: "Jardín y exteriores", ht: "Lakou ak Gazon" },
+        text: {
+          en: "Mow my front and back lawn this afternoon. Mower's in the garage.",
+          es: "Cortar el césped de enfrente y atrás esta tarde. La podadora está en el garaje.",
+          ht: "Koupe gazon devan ak dèyè lakay mwen apremidi a. Machin gazon an nan garaj la."
+        }
+      },
+      {
+        price: "$110",
+        cat: { en: "Cleaning", es: "Limpieza", ht: "Netwayaj" },
+        text: {
+          en: "Clean my 2-bedroom apartment today. Kitchen, both bathrooms and the floors. I have the supplies.",
+          es: "Limpiar mi apartamento de 2 cuartos hoy. La cocina, los dos baños y los pisos. Tengo los productos.",
+          ht: "Netwaye apatman 2 chanm mwen jodi a. Kizin nan, de twalèt yo ak atè a. Mwen gen pwodwi yo."
+        }
+      }
+    ]
   };
 
   // Remember the English text so we can switch back
@@ -272,35 +312,47 @@
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const typed = document.getElementById("typed");
   const status = document.getElementById("status");
-  let timer;
+  const price = document.getElementById("price");
+  const cat = document.querySelector(".post .cat");
+  let timer, demoIndex = 0, currentLang = "en";
 
-  function playDemo(lang) {
+  function playDemo() {
     clearTimeout(timer);
-    const text = T.demo[lang];
+    const d = T.demos[demoIndex];
+    const lang = currentLang;
+    const text = d.text[lang];
+    cat.textContent = d.cat[lang];
+    price.textContent = d.price;
     status.classList.remove("on");
-    if (reduce) { typed.textContent = text; status.classList.add("on"); return; }
+    const next = () => { demoIndex = (demoIndex + 1) % T.demos.length; playDemo(); };
+    if (reduce) { typed.textContent = text; status.classList.add("on"); timer = setTimeout(next, 6000); return; }
     let i = 0;
     typed.textContent = "";
     (function step() {
       typed.textContent = text.slice(0, ++i);
       if (i < text.length) timer = setTimeout(step, 38);
-      else timer = setTimeout(() => status.classList.add("on"), 700);
+      else timer = setTimeout(() => { status.classList.add("on"); timer = setTimeout(next, 3500); }, 700);
     })();
   }
 
   function setLang(lang) {
     document.documentElement.lang = lang;
-    nodes.forEach(n => { n.textContent = lang === "es" ? (T.es[n.dataset.t] || n.dataset.en) : n.dataset.en; });
+    currentLang = lang;
+    nodes.forEach(n => { n.textContent = T[lang] ? (T[lang][n.dataset.t] || n.dataset.en) : n.dataset.en; });
     document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
     try { localStorage.setItem("qh-lang", lang); } catch (e) {}
-    playDemo(lang);
+    playDemo();
   }
 
   document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
   document.getElementById("yr").textContent = new Date().getFullYear();
 
   let start = "en";
-  try { start = localStorage.getItem("qh-lang") || ((navigator.language || "").startsWith("es") ? "es" : "en"); } catch (e) {}
+  try {
+    const nav = (navigator.language || "").toLowerCase();
+    start = localStorage.getItem("qh-lang") || (nav.startsWith("es") ? "es" : nav.startsWith("ht") ? "ht" : "en");
+  } catch (e) {}
+  if (!["en", "es", "ht"].includes(start)) start = "en";
   setLang(start);
 </script>
 </body>
